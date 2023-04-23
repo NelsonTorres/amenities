@@ -1,9 +1,9 @@
-FROM python:3.11.3-alpine3.17 
+FROM python:3.10.11-buster
 
 COPY amenities src
 
 COPY requirements.txt requirements.txt
 
-CMD ["pip", "install", "-r", "requirements.txt"]
+RUN pip install -r requirements.txt
 
-ENTRYPOINT ["python", "src/load_osm.py"]
+ENTRYPOINT ["python", "src/save_amenities.py"]

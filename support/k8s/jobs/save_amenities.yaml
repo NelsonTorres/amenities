@@ -1,0 +1,41 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: saveamenities
+spec:
+  completions: 1
+  template:
+    spec:
+      containers:
+      - name: saveamenities
+        image: save-amenities
+        imagePullPolicy: Never
+        args:
+          - "München"
+        env:
+          - name: POSTGRESQL_DATABASE
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secrets
+                key: POSTGRESQL_DATABASE 
+          - name: POSTGRESQL_USER
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secrets
+                key: POSTGRESQL_USER
+          - name: POSTGRESQL_HOST
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secrets
+                key: POSTGRESQL_HOST
+          - name: POSTGRESQL_PORT
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secrets
+                key: POSTGRESQL_PORT
+          - name: POSTGRESQL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: postgresql-secrets
+                key: POSTGRESQL_PASSWORD
+      restartPolicy: Never

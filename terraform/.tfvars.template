@@ -1,0 +1,1 @@
+POSTGRESQL_PASSWORD=$(kubectl get secret --namespace amenities database-postgresql -o jsonpath="{.data.postgres-password}" | base64 -d)
