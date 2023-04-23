@@ -2,45 +2,66 @@ import pandas as pd
 import plotly.graph_objects as go
 from plots import load_amenities
 
-#example
-#df = pd.DataFrame(
-#    {'object': ['Sendlinger Tor'],
-#     'lat': [48.1340043],
-#     'lon': [11.567605800000024]}
-#     )
+def filter_amenity(df: pd.DataFrame,  amenity: str):
+    """Return rows with amenity amenity."""
+    return df.where(df['amenity'] == amenity)
 
 df = load_amenities()
 
 df['name'] = [elem.get('name') for elem in df.tags]
-available_tags = {key: value for key, value in df.tags.items()}
-available_tags = 
+df['amenity'] = [elem.get('amenity') for elem in df.tags]
 
-fig = go.Figure(
-    data=go.Scattergeo(
-        lon = df['lon'],
-        lat = df['lat'],
-        text = df['name'],
-        mode = 'markers',
 
+
+
+
+fig = go.Figure()
+
+def add_trace(fig: go.Figure, df: pd.DataFrame, amenity: str) -> None:
+    """Adds mmarkers of amenity."""
+    local_df = filter_amenity(df, amenity)
+    fig.add_trace(
+        go.Scattergeo(
+            name=amenity,
+            lon = local_df['lon'],
+            lat = local_df['lat'],
+            text = local_df['name'],
+            mode = 'markers',
+            legendgroup=amenity,
+            marker_coloraxis="coloraxis",
+            visible="legendonly"
+        )
     )
-)
+
+add_trace(fig, df, 'pub')
+add_trace(fig, df, 'pub')
+
 
 fig.update_geos(
-    visible=False, 
+    visible=True, 
     resolution=110, 
     scope="europe",
     showcountries=True, 
     countrycolor="Black",
     showsubunits=True, 
-    subunitcolor="Blue"
+    subunitcolor="Blue",
+
 )
 
 fig.update_geos(lataxis_showgrid=True, lonaxis_showgrid=True)
-fig.update_layout(height=2400, margin={"r":0,"t":0,"l":0,"b":0})
+fig.update_layout(
+    margin={"r":0,"t":0,"l":0,"b":0},
+)
 
-
-
-
+fig.update_layout(
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=1.02,
+        xanchor="right",
+        x=1
+    )
+)
 
 
 fig.show()
