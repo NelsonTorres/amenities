@@ -81,6 +81,5 @@ def store_amenities(conn: psycopg2.extensions.connection, amenities: list[dict[s
                     {dao.uid},
                     '{dao.tags_str}'
             );"""            
-            print(statement)
             cur.execute(statement)
     conn.commit()

@@ -8,10 +8,11 @@ import json
 
 @click.command()
 @click.argument("place", nargs=1)
-def save_amenities(place: str):
+@click.argument("amenity", nargs=1)
+def save_amenities(place: str,  amenity: str):
     """Saves amenities to database."""
     with get_conn() as conn:
-        data = get_osm(place)
+        data = get_osm(place, amenity)
         store_amenities(conn, data)
 
 

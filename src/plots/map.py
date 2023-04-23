@@ -34,7 +34,7 @@ def add_trace(fig: go.Figure, df: pd.DataFrame, amenity: str) -> None:
     )
 
 add_trace(fig, df, 'pub')
-add_trace(fig, df, 'pub')
+add_trace(fig, df, 'sport')
 
 
 fig.update_geos(
