@@ -11,7 +11,7 @@ df = load_amenities()
 df['name'] = [elem.get('name') for elem in df.tags]
 df['amenity'] = [elem.get('amenity') for elem in df.tags]
 
-
+amenities = {elem for elem in df.amenity}
 
 
 
@@ -33,8 +33,9 @@ def add_trace(fig: go.Figure, df: pd.DataFrame, amenity: str) -> None:
         )
     )
 
-add_trace(fig, df, 'pub')
-add_trace(fig, df, 'sport')
+for amenity in amenities:
+    add_trace(fig, df, amenity)
+
 
 
 fig.update_geos(
@@ -59,7 +60,7 @@ fig.update_layout(
         yanchor="bottom",
         y=1.02,
         xanchor="right",
-        x=1
+        x=-1
     )
 )
 
